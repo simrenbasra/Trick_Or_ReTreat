@@ -1,0 +1,17 @@
+Training/Logs
+
+
+*.csv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+.DS_Store
+*.pptx
+
+# Images for blog posts
+*.png
+
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
