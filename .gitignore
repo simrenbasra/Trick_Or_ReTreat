@@ -8,8 +8,6 @@ Training/Logs
 .DS_Store
 *.pptx
 
-# Images for blog posts
-*.png
 
 # Python bytecode files
 __pycache__/
