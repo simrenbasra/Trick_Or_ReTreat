@@ -1,6 +1,5 @@
 import numpy as np
 import gymnasium as gym
-#import gym 
 import pygame
 
 class Simple_Haunted_Mansion(gym.Env):
@@ -24,7 +23,7 @@ class Simple_Haunted_Mansion(gym.Env):
             render_mode: str
                 For visualisation, default render mode set to 'human'
 
-        Outputs:
+        Outputs (Attributes):
             size : int
                 The size of the grid, which will be a square of `size x size`.
                 
