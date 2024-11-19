@@ -84,10 +84,10 @@ class Intm_Haunted_Mansion(gym.Env):
         self.target_location = np.array([4, 4], dtype=np.int64)
 
         # Setting position of the target_location (exit door), the door is static
-        self.ghosts_location = np.array([[0, 0],[3, 2],[2, 4]])
+        self.ghosts_location = np.array([[0, 0],[4, 2],[2, 4]])
         
         # Setting position of the target_location (exit door), the door is static
-        self.candies_location = np.array([[2, 2],[0, 3]])
+        self.candies_location = np.array([[2, 2],[3, 0]])
 
         # Setting penalty for each step the action takes where target location is not reached
         self.step_penalty = step_penalty
@@ -108,9 +108,9 @@ class Intm_Haunted_Mansion(gym.Env):
         # Dictionary to map the actions to directions on the grid
         self.action_to_direction = {            
             0: np.array([1, 0]),  # right
-            1: np.array([0, 1]),  # up
+            1: np.array([0, 1]),  # down
             2: np.array([-1, 0]),  # left
-            3: np.array([0, -1]),  # down
+            3: np.array([0, -1]),  # up
         }
         
         # Initialise Pygame if render_mode is 'human'
@@ -188,8 +188,8 @@ class Intm_Haunted_Mansion(gym.Env):
 
         # Setting the agents starting location randomly on the grid
         self.agent_location = self.np_random.integers(0, self.size, size=2, dtype= np.int64)
-        self.candies_location = np.array([[2, 2],[0, 3]])
-        
+        self.candies_location = np.array([[2, 2],[3, 0]])
+ 
         # Getting initial observations and info based on starting agent position
         observation = self._get_obs()
         info = self._get_info()
@@ -235,7 +235,7 @@ class Intm_Haunted_Mansion(gym.Env):
             action = np.int64(action.item()) 
 
         direction = self.action_to_direction[action]
-
+        
         # We use np.clip to make sure we don't leave the grid bounds
         self.agent_location = np.clip(
             self.agent_location + direction, 0, self.size - 1
@@ -246,27 +246,28 @@ class Intm_Haunted_Mansion(gym.Env):
         # Terminated only when reward is reached (agent same location as door)
         terminated =np.array_equal(self.agent_location, self.target_location)
 
-        # Initialising reward to 0 for each action
+        # Initialising reward to 0
         reward = 0
-        
+        candy_count = 0
+  
         if terminated:
             reward += 20
         else:
             # Check if the agent encounters a ghost
             if any(np.array_equal(self.agent_location, ghost) for ghost in self.ghosts_location):
                 # Penalty of - 5 for encountering a ghost
-                reward -= 5  
+                reward -= 25
             
             for candy in self.candies_location:
-                if np.array_equal(self.agent_location, candy):
-                    # Reward for collecting candy
-                    reward += 5
+                if np.array_equal(self.agent_location, candy) and not np.array_equal(candy, [-1, -1]):
+                    reward += 15 
                     # Removing candy from grid after agnet has collected it (by setting it out of bounds)
                     candy[:] = [-1, -1]  
 
-            # Adding penalty of - 0.1 for every step agent takes which does not result in termination
-            # Setting to a low value of 0.1 to avoid discouraging exploring
-            reward -= self.step_penalty
+        
+        # Adding penalty of - 0.1 for every step agent takes which does not result in termination
+        # Setting to a low value of 0.1 to avoid discouraging exploring
+        reward -= self.step_penalty
 
         # Get observation and info after taking an action
         observation = self._get_obs()
@@ -315,7 +316,7 @@ class Intm_Haunted_Mansion(gym.Env):
         # Scaling the image of the Door to be smaller than size of the cell
         door_img = pygame.transform.scale(door_img,(self.cell_size * 0.8,self.cell_size * 0.8))
         # Drawing the image to the grid, adding offset to ensure img is in the middle
-        self.screen.blit(door_img, (door_pos[1] + offset , door_pos[0] + offset))
+        self.screen.blit(door_img, (door_pos[0] + offset , door_pos[1] + offset))
         
         # Iterate over each ghost in the grid
         for ghost in self.ghosts_location:
@@ -326,7 +327,7 @@ class Intm_Haunted_Mansion(gym.Env):
             # Scale the image to fit within the cell
             ghost_img = pygame.transform.scale(ghost_img, (self.cell_size * 0.8, self.cell_size * 0.8))
             # Add offset to center the image in the cell and render it at the calculated position
-            self.screen.blit(ghost_img, (ghost_pos[1] + offset, ghost_pos[0] + offset))
+            self.screen.blit(ghost_img, (ghost_pos[0] + offset, ghost_pos[1] + offset))
         
         # Iterate over each candy in the grid
         for candy in self.candies_location:
@@ -337,13 +338,13 @@ class Intm_Haunted_Mansion(gym.Env):
             # Scale the image to fit within the cell
             candy_img = pygame.transform.scale(candy_img, (self.cell_size * 0.8, self.cell_size * 0.8))
             # Add offset to center the image in the cell and render it at the calculated position
-            self.screen.blit(candy_img, (candy_pos[1] + offset, candy_pos[0] + offset))
+            self.screen.blit(candy_img, (candy_pos[0] + offset, candy_pos[1] + offset))
 
         agent_pos = self.agent_location * self.cell_size
         # Representing the agent as an image from Canva
         agent_img = pygame.image.load('images/Agent.png')
         agent_img = pygame.transform.scale(agent_img,(self.cell_size * 0.8,self.cell_size * 0.8))
-        self.screen.blit(agent_img, (agent_pos[1] + offset, agent_pos[0] + offset))
+        self.screen.blit(agent_img, (agent_pos[0] + offset, agent_pos[1] + offset))
 
         # To keep updating the display after each action
         pygame.display.update()  
