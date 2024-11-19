@@ -106,6 +106,7 @@ class Intm_Haunted_Mansion(gym.Env):
         self.action_space = gym.spaces.Discrete(4)
 
         # Dictionary to map the actions to directions on the grid
+        # (0,0) top left corner , (4,4) bottom right
         self.action_to_direction = {            
             0: np.array([1, 0]),  # right
             1: np.array([0, 1]),  # down
