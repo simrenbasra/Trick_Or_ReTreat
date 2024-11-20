@@ -83,10 +83,10 @@ class Intm_Haunted_Mansion(gym.Env):
         # Setting position of the target_location (exit door), the door is static
         self.target_location = np.array([4, 4], dtype=np.int64)
 
-        # Setting position of the target_location (exit door), the door is static
+        # Setting positions of ghosts (using nested array as more than one ghost)
         self.ghosts_location = np.array([[0, 0],[4, 2],[2, 4]])
         
-        # Setting position of the target_location (exit door), the door is static
+        # Setting positions of candies (using nested array as more than one candy)
         self.candies_location = np.array([[2, 2],[3, 0]])
 
         # Setting penalty for each step the action takes where target location is not reached
@@ -95,10 +95,12 @@ class Intm_Haunted_Mansion(gym.Env):
         # Observations are represented as dictionaries with the agent's and the target's location.
         self.observation_space = gym.spaces.Dict(
             {
-                'agent': gym.spaces.Box(0, size - 1, shape=(2,), dtype = np.int64), # 1d array 2 elements
+                'agent': gym.spaces.Box(0, size - 1, shape=(2,), dtype = np.int64),
                 'target': gym.spaces.Box(0, size - 1, shape=(2,), dtype = np.int64),
-                'ghosts': gym.spaces.Box(0, size - 1, shape=(self.ghosts_location.shape[0], 2), dtype = np.int64), #2d array of 3,2
-                'candies': gym.spaces.Box(0, size - 1, shape=(self.candies_location.shape[0], 2), dtype = np.int64)
+                # shape for ghosts/candies to (no ghosts/candies, 2), where each has [x, y] coordinates
+                'ghosts': gym.spaces.Box(0, size - 1, shape=(self.ghosts_location.shape[0], 2), dtype = np.int64),
+                # Setting lower bound to -1 as once candies are collected they are placed out of bounds (see step())
+                'candies': gym.spaces.Box(-1, size - 1, shape=(self.candies_location.shape[0], 2), dtype = np.int64)
             }
         )
 
@@ -106,7 +108,7 @@ class Intm_Haunted_Mansion(gym.Env):
         self.action_space = gym.spaces.Discrete(4)
 
         # Dictionary to map the actions to directions on the grid
-        # (0,0) top left corner , (4,4) bottom right
+        # (0,0) top left corner , (4,4) bottom right up and down are reveresed 
         self.action_to_direction = {            
             0: np.array([1, 0]),  # right
             1: np.array([0, 1]),  # down
@@ -115,7 +117,7 @@ class Intm_Haunted_Mansion(gym.Env):
         }
         
         # Initialise Pygame if render_mode is 'human'
-        
+
         if self.render_mode == 'human':
             pygame.init()
             self.screen_size = 800
@@ -189,6 +191,7 @@ class Intm_Haunted_Mansion(gym.Env):
 
         # Setting the agents starting location randomly on the grid
         self.agent_location = self.np_random.integers(0, self.size, size=2, dtype= np.int64)
+        # Reset candies on grid
         self.candies_location = np.array([[2, 2],[3, 0]])
  
         # Getting initial observations and info based on starting agent position
@@ -249,25 +252,23 @@ class Intm_Haunted_Mansion(gym.Env):
 
         # Initialising reward to 0
         reward = 0
-        candy_count = 0
   
         if terminated:
             reward += 20
         else:
             # Check if the agent encounters a ghost
             if any(np.array_equal(self.agent_location, ghost) for ghost in self.ghosts_location):
-                # Penalty of - 5 for encountering a ghost
+                # Penalty of - 25
                 reward -= 25
             
             for candy in self.candies_location:
                 if np.array_equal(self.agent_location, candy) and not np.array_equal(candy, [-1, -1]):
+                    # Reward of +15
                     reward += 15 
                     # Removing candy from grid after agnet has collected it (by setting it out of bounds)
                     candy[:] = [-1, -1]  
 
-        
-        # Adding penalty of - 0.1 for every step agent takes which does not result in termination
-        # Setting to a low value of 0.1 to avoid discouraging exploring
+        # Adding penalty for every step agent takes, default = 0.1 to avoid discouraging exploration
         reward -= self.step_penalty
 
         # Get observation and info after taking an action
@@ -332,9 +333,9 @@ class Intm_Haunted_Mansion(gym.Env):
         
         # Iterate over each candy in the grid
         for candy in self.candies_location:
-            # Calculate the position of the ghost in terms of pixels
+            # Calculate the position of the candy in terms of pixels
             candy_pos = candy * self.cell_size
-            # Load the image of the ghost
+            # Load the image of the candy
             candy_img = pygame.image.load('images/Candy.png')
             # Scale the image to fit within the cell
             candy_img = pygame.transform.scale(candy_img, (self.cell_size * 0.8, self.cell_size * 0.8))
