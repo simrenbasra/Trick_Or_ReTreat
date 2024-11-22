@@ -5,11 +5,9 @@ To get familiar with Gymnasium, I began by experimenting with one of its pre-def
 This approach helped me gain a solid understanding before diving into creating a custom environment for **Trick or ReTreat**. 
 
 ## About Lunar Lander
-
 The Lunar Lander environment is a classic control reinforcement learning task where an agent must successfully land on a landing pad while managing its speed, angle and engine thrust.
 
 #### **Action Space**
-
 The agent can take any of the following four discrete actions:
 
 -	**0:** Do nothing
@@ -21,7 +19,6 @@ The agent can take any of the following four discrete actions:
 -	**3:** Fire the right engine
 
 #### **Observation Space**
-
 The observation space is defined as a box with the following bounds:
 
 -	**Lower Bound:** [-2.5, -2.5, -10, -10, -6.2831855, -10, 0, 0]
@@ -49,7 +46,6 @@ The observation vector contains the following elements:
 **8.	Right Leg Contact:** 1 if the right leg is in contact with the ground, 0 if not.
 
 #### **Reward Structure**
-
 The goal of the agent is to land between the two flags. Rewards are given based on the following criteria:
 
 - The closer the lander is to the landing pad, the more points are awarded.
@@ -69,7 +65,6 @@ The goal of the agent is to land between the two flags. Rewards are given based 
 -	A reward above 200 points indicates good landing and performance of the agent.
 
 #### **Episode End Conditions**
-
 An episode can end in two ways:
 
 -	**Truncation:** The episode is truncated when the agent scores 200 points.
@@ -79,11 +74,9 @@ An episode can end in two ways:
 -----
 
 ## **Random Action Selection**
-
 To start, I explored the effects of the agent randomly selecting actions from its action space to see how the agent performs. This helped me familiarise myself with using basic concepts of both libraries. I limited the number of steps to 1000 to avoid lengthy runtimes.
 
 #### **Results**
-
 I collected the total rewards per episode (capped at 1000), below are the results:
 
 | Episode | Score               |
@@ -97,14 +90,12 @@ I collected the total rewards per episode (capped at 1000), below are the result
 It's clear that the performance was poor, as all scores are negative. The agent fails to achieve the task through random actions, highlighting the need for training to better understand its environment.
 
 ## **Proximal Policy Optimisation Algorithm** 
-
 After exploring the Lunar Lander environment through random action selection, I wanted to improve the agent's performance through training. 
 
 Stable Baselines3 documentation is very thorough and provides a list of all available RL algorithms for training. In the end, I chose Proximal Policy Optimisation (PPO) because it is relatively simple to understand and quite stable. 
 
 
 ## **Testing Results**
-
 After training the model, I tested its performance over 10 episodes. Here are the results:
 
 | Episode        | Score            |
