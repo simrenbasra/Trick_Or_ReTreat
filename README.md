@@ -57,10 +57,6 @@ Notebooks to set up a custom environment and train an agent using Open AI's Gymn
 - Evaluating the training and performance of the agent.
 
 
-## Training Folder
-
-Folder where I saved all trained models to, for reference if needed.
-
 ## Blog Posts
 
 For more information or explanations please visit my blog posts on the project where I dive into the theory and explain my code:
