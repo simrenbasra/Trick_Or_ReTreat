@@ -124,4 +124,4 @@ Overall, agent shows a much stronger performance with most scores above 200.
 
 There are some low and even negative scores which may suggest the agent struggled in certain scenarios. 
 
-To know more about the PPO please navigate to my Blog Post on this project: (Link)[https://simrenbasra.github.io/simys-blog/2024/10/31/trick_or_retreat_part2.html]
+To know more about the PPO please navigate to my Blog Post on this project: [Link](https://simrenbasra.github.io/simys-blog/2024/10/31/trick_or_retreat_part2.html)
