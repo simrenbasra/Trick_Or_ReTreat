@@ -7,7 +7,7 @@ This approach helped me gain a solid understanding before diving into creating a
 ## About Lunar Lander
 The Lunar Lander environment is a classic control reinforcement learning task where an agent must successfully land on a landing pad while managing its speed, angle and engine thrust.
 
-#### **Action Space**
+#### Action Space
 The agent can take any of the following four discrete actions:
 
 -	**0:** Do nothing
@@ -18,7 +18,7 @@ The agent can take any of the following four discrete actions:
 
 -	**3:** Fire the right engine
 
-#### **Observation Space**
+#### Observation Space
 The observation space is defined as a box with the following bounds:
 
 -	**Lower Bound:** [-2.5, -2.5, -10, -10, -6.2831855, -10, 0, 0]
@@ -45,7 +45,7 @@ The observation vector contains the following elements:
 
 **8.	Right Leg Contact:** 1 if the right leg is in contact with the ground, 0 if not.
 
-#### **Reward Structure**
+#### Reward Structure
 The goal of the agent is to land between the two flags. Rewards are given based on the following criteria:
 
 - The closer the lander is to the landing pad, the more points are awarded.
@@ -64,14 +64,12 @@ The goal of the agent is to land between the two flags. Rewards are given based 
   
 -	A reward above 200 points indicates good landing and performance of the agent.
 
-#### **Episode End Conditions**
+#### Episode End Conditions
 An episode can end in two ways:
 
 -	**Truncation:** The episode is truncated when the agent scores 200 points.
 
 -	**Termination:** The episode terminates if the lander crashes, goes out of bounds or becomes asleep.
-
------
 
 ## **Random Action Selection**
 To start, I explored the effects of the agent randomly selecting actions from its action space to see how the agent performs. This helped me familiarise myself with using basic concepts of both libraries. I limited the number of steps to 1000 to avoid lengthy runtimes.
