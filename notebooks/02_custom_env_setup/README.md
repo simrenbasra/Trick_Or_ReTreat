@@ -9,7 +9,6 @@ Before starting this project, my knowledge of reinforcement learning (RL) was pu
 3.	**PHASE 3**: Adding Dynamic Movements
 
 ## Simple Environment - Phase 1
-
 `simple_env.py`
 
 Python file with custom environment class  (Simple Haunted Mansion), contains all environment methods.
@@ -19,7 +18,6 @@ Python file with custom environment class  (Simple Haunted Mansion), contains al
 Python notebook where I test the rendering of the environment and train the agent using PPO from Stable Baselines 3.
 
 #### Agents Objective - Simple Environment
-
 In this environment, the trick-or-treater 🏃 is the agent, and the exit door 🚪 is the target. 
 
 The agent is placed randomly in the haunted mansion and must find the exit door to escape!
@@ -28,12 +26,10 @@ The agent is placed randomly in the haunted mansion and must find the exit door 
 - The game terminates when the agent has reached the exit door of the haunted mansion.
 
 #### Reward Structure - Simple Environment
-
 - A reward of 1 is given when the trick-or-treater finds the door.
 - No penalty is given for the number of timesteps taken to find the door.
 
 #### Results for Phase 1
-
 Testing trained agent over 15 episodes, here are the results:
 
 | Episode | Score |
@@ -60,7 +56,6 @@ To do this I will add a else case into the if statement in the step function for
 
 
 ## Intermediate Environment
-
 `intermediate_env.py`
 
 Python file with custom environment class (Intermediate Haunted Mansion), contains all environment methods.
@@ -70,7 +65,6 @@ Python file with custom environment class (Intermediate Haunted Mansion), contai
 Python notebook where I train the agent first using PPO and then Q-learning, comapring the effecitveness of both methods.
 
 #### Agents Objective - Intermediate Environment
-
 In Phase 1, the agent's task was simple; find and reach the exit door. 
 
 But now, with the addition of ghosts and candies, the agent not only needs to find and reach the exit, but also:
@@ -89,7 +83,6 @@ But now, with the addition of ghosts and candies, the agent not only needs to fi
 -	Small penalty is applied for each step taken that does not result in termination (reaching the exit door).
   
 #### Reward Structure - Intermediate Environment
-
 The reward logic is now more complex:
 
 -	**Exit Door:** Reward of + 20 for reaching the exit door and completing the task.
@@ -102,7 +95,6 @@ The reward logic is now more complex:
 
 
 #### PPO Results 
-
 Results after testing the trained PPO model across 15 episodes:
 
 | Episode | Score |
@@ -129,7 +121,6 @@ Overall the agent shows a strong performance with all scores greater than 30 mea
 Training with PPO was sufficient in this instance, could be due to the relative simplicity of the environment still. All rewads/penalites in the environemnt are static, only the agent moves. 
 
 #### Q-learning Results 
-
 | Episode | Score  |
 |---------|--------|
 | 1       | 19.99  |
@@ -167,7 +158,6 @@ To see more on Q-table and what the agent learnt, look at the comments in the no
 
 
 ## Final Environment 
-
 `final_env.py`
 
 Python file with custom environment class (Final Haunted Mansion), contains all environment methods.
@@ -177,7 +167,6 @@ Python file with custom environment class (Final Haunted Mansion), contains all 
 Python notebook where I train the agent using DQN from Stable Baselines 3, I also show my attempt at implementing DQN using Keras/Tensorflow. Unfortuantely I ran out of time for this project and was not able to spend more time debugging my attempt at DQN. This is something I will need to revisit in the future. 
 
 ## Summary
-
 There is a clear progression in complexity throughout each Phase of my custom environment. This project has been enjoyable, I have learnt so much about Reinforcement Learning and am sure there is a lot left to learn! 
 
 I feel more comfortable in my knowledge of RL, specifically when it comes to Q-learning. To read more about the project and concepts I used in these notebooks, please look at my [blog posts](https://simrenbasra.github.io/simys-blog/) on the Trick Or ReTreat project.
