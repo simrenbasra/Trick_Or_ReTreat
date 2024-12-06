@@ -8,7 +8,7 @@ Before starting this project, my knowledge of reinforcement learning (RL) was pu
 
 3.	**PHASE 3**: Adding Dynamic Movements
 
-## Simple Environment - Phase 1
+## Simple Environment
 `simple_env.py`
 
 Python file with custom environment class  (Simple Haunted Mansion), contains all environment methods.
@@ -73,7 +73,6 @@ But now, with the addition of ghosts and candies, the agent not only needs to fi
 -	Collect as many candies as possible
 
 **New Environment Features:**
-
 -	Both candies and penalties remained static throughout this phase.
   
 -	There are 4 actions the agent can take: up, down, left and right.
@@ -121,6 +120,7 @@ Overall the agent shows a strong performance with all scores greater than 30 mea
 Training with PPO was sufficient in this instance, could be due to the relative simplicity of the environment still. All rewads/penalites in the environemnt are static, only the agent moves. 
 
 #### Q-learning Results 
+
 | Episode | Score  |
 |---------|--------|
 | 1       | 19.99  |
@@ -164,9 +164,62 @@ Python file with custom environment class (Final Haunted Mansion), contains all 
 
 `01-final_env.ipynb`
 
-Python notebook where I train the agent using DQN from Stable Baselines 3, I also show my attempt at implementing DQN using Keras/Tensorflow. Unfortuantely I ran out of time for this project and was not able to spend more time debugging my attempt at DQN. This is something I will need to revisit in the future. 
+Python notebook where I train the agent using DQN from Stable Baselines 3, I also show my attempt at implementing DQN using Keras/Tensorflow. Unfortunately I ran out of time for this project and was not able to spend more time debugging my attempt at DQN. This is something I will need to revisit in the future. 
+
+#### Agents Objective - Intermediate Environment
+The agent's objective is the same as Phase 2:
+
+-	Avoid the ghosts
+-	Collect as many candies as possible
+
+But now the agent faces an additional added complexity as the ghosts will be placed randomly on the grid at the start of each episode.
+
+**New Environment Features:**
+
+-	Ghosts will be randomly placed on the grid at the start of each episode.
+  
+#### Reward Structure - Intermediate Environment
+The reward logic is now more complex:
+
+-	**Exit Door:** Reward of + 10 for reaching the exit door and completing the task.
+  
+-	**Candies:** Reward of + 3 to incentivise the agent to collect the candies but only if they are on route to target. 
+  
+-	**Ghosts:** Penalty of -7 is given if the agent contacts a ghost. If I was to set this any higher, the agent gets stuck.
+  
+-	**Step Penalty:** A small penalty of 0.75 - 1.0 for each action that doesn’t lead to the target. This penalty is set higher than Q-learning. This could be beacuse DQN provides more stable learning due to Experience Replay and Target Networks (see blog post). 
+
+#### Deep Q-Network Results 
+
+| Episode   | Score  |
+|-----------|--------|
+| Episode 1 | 8.5    |
+| Episode 2 | 9.25   |
+| Episode 3 | 9.25   |
+| Episode 4 | 9.25   |
+| Episode 5 | 8.5    |
+| Episode 6 | 7.75   |
+| Episode 7 | 8.5    |
+| Episode 8 | 8.5    |
+| Episode 9 | 9.25   |
+| Episode 10| 9.25   |
+| Episode 11| 9.25   |
+| Episode 12| 8.5    |
+| Episode 13| 8.5    |
+| Episode 14| 8.5    |
+| Episode 15| 9.25   |
+| Episode 16| 7.75   |
+| Episode 17| 9.25   |
+| Episode 18| 1.5    |
+| Episode 19| 10.0   |
+| Episode 20| 8.5    |
+
+
+Overall the agent shows a strong performance, successfully reaches the door while avoiding ghosts and collecting candies. There are a few cases where the agent does choose to encounter a ghost - I think this may be due to the fact that Epsilon is decayed to 0.1 meaning 10% of the time the agent will choose a random action. I did this in order to encourage the agent to explore to adapt to random placement of the ghosts. 
+
+Going forward, I could spend more time trying to tune my DQN in order to improve the agent's performance.
 
 ## Summary
 There is a clear progression in complexity throughout each Phase of my custom environment. This project has been enjoyable, I have learnt so much about Reinforcement Learning and am sure there is a lot left to learn! 
 
-I feel more comfortable in my knowledge of RL, specifically when it comes to Q-learning. To read more about the project and concepts I used in these notebooks, please look at my [blog posts](https://simrenbasra.github.io/simys-blog/) on the Trick Or ReTreat project.
+I feel more comfortable in my knowledge of RL, specifically when it comes to Q-learning and Deep Q-Networks. To read more about the project and concepts I used in these notebooks, please look at my [blog posts](https://simrenbasra.github.io/simys-blog/) on the Trick Or ReTreat project.
