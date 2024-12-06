@@ -77,14 +77,13 @@ class Final_Haunted_Mansion(gym.Env):
         # Setting number of rows and columns of grid using size
         self.num_rows, self.num_cols = self.size, self.size
 
-        # Placeholder value for agent location, the agent is out of bounds and is randomly set on the grid during reset() function
+        # Placeholder value for agent location, the agent is out of bounds and is randomly set on the grid during reset()
         self.agent_location = np.array([-1, -1], dtype=np.int64)   
 
         # Setting position of the target_location (exit door), the door is static
         self.target_location = np.array([4, 4], dtype=np.int64)
 
-        # Setting positions of ghosts (using nested array as more than one ghost)
-        # self.ghosts_location = np.array([[0, 0],[4, 2],[2, 4]])
+        # Setting positions of ghosts to out of bounds, ghost positions to be randomly set in reset()
         self.ghosts_location = np.array([[-1, -1],[-1, -1],[-1, -1]])
         
         # Setting positions of candies (using nested array as more than one candy)
@@ -197,20 +196,28 @@ class Final_Haunted_Mansion(gym.Env):
         # Reset candies on grid
         self.candies_location = np.array([[2, 2],[3, 0]])
 
+        # Looping through each ghost location
         for i in range(len(self.ghosts_location)):
-            # Generate a random position for the ghost
-            ghost_pos = self.np_random.integers(0, self.size, size=2, dtype=np.int64)
-            
-            # Check if the ghost position is valid (not overlapping with agent, candies, or other ghosts)
-            while (np.array_equal(ghost_pos, self.agent_location) or
-                any(np.array_equal(ghost_pos, candy) for candy in np.array([[2, 2], [3, 0]])) or
-                np.array_equal(ghost_pos, self.target_location) or
-                any(np.array_equal(ghost_pos, other_ghost) for j, other_ghost in enumerate(self.ghosts_location) if j != i)):
-                # If there's a clash, generate a new random position
+            is_valid_pos = False
+            # While flag is False keep generating random position for ghosts
+            while not is_valid_pos:
+                # Generate a random position for the ghost
                 ghost_pos = self.np_random.integers(0, self.size, size=2, dtype=np.int64)
-                
-            # Set the updated ghost location
-            self.ghosts_location[i] = ghost_pos
+                # If ghost_pos clashes with other items on board keep continue generating new random positions
+                if (np.array_equal(ghost_pos, self.agent_location) or
+                    np.array_equal(ghost_pos, self.target_location) or
+                    # Check if overlap with any of the candy positions
+                    any(np.array_equal(ghost_pos, candy) for candy in np.array([[2, 2], [3, 0]])) or
+                    # Loop and check other ghosts are not overlapping
+                    any(np.array_equal(ghost_pos, other_ghost) for j, other_ghost in enumerate(self.ghosts_location) if j != i)):
+                    # Continue and keep generating new rand positions
+                    continue
+
+                # If there are not position clases set flag to True    
+                else:
+                    is_valid_pos = True
+                    # Set the updated ghost location
+                    self.ghosts_location[i] = ghost_pos
         
         # Getting initial observations and info based on starting agent position
         observation = self._get_obs()
