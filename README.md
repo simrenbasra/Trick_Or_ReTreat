@@ -54,4 +54,4 @@ For more information or explanations please visit my blog posts on the project w
 
 - [Custom Environment Set Up: Phase 1 (Simple)](https://simrenbasra.github.io/simys-blog/2024/11/14/trick_or_retreat_part3.html)
 - [Custom Environment Set Up: Phase 2 (Intermediate)](https://simrenbasra.github.io/simys-blog/2024/11/20/trick_or_retreat_part4.html)
-- [Custom Environment Set Up: Phase 3 (Final)]()
+- [Custom Environment Set Up: Phase 3 (Final)](https://simrenbasra.github.io/simys-blog/2024/12/07/trick_or_retreat_part5.html)
