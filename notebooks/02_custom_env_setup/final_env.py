@@ -285,8 +285,8 @@ class Final_Haunted_Mansion(gym.Env):
         else:
             # Check if the agent encounters a ghost
             if any(np.array_equal(self.agent_location, ghost) for ghost in self.ghosts_location):
-                # Penalty of - 7 (-7 is the max penalty, to increase beyond this causes agent to get stuck!)
-                reward -= 7
+                # Penalty of - 15
+                reward -= 15
             
             for candy in self.candies_location:
                 if np.array_equal(self.agent_location, candy) and not np.array_equal(candy, [-1, -1]):
