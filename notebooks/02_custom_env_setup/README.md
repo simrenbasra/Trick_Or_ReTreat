@@ -191,33 +191,41 @@ The reward logic is now more complex:
 
 #### Deep Q-Network Results 
 
-| Episode   | Score  |
-|-----------|--------|
-| Episode 1 | 8.5    |
-| Episode 2 | 9.25   |
-| Episode 3 | 9.25   |
-| Episode 4 | 9.25   |
-| Episode 5 | 8.5    |
-| Episode 6 | 7.75   |
-| Episode 7 | 8.5    |
-| Episode 8 | 8.5    |
-| Episode 9 | 9.25   |
-| Episode 10| 9.25   |
-| Episode 11| 9.25   |
-| Episode 12| 8.5    |
-| Episode 13| 8.5    |
-| Episode 14| 8.5    |
-| Episode 15| 9.25   |
-| Episode 16| 7.75   |
-| Episode 17| 9.25   |
-| Episode 18| 1.5    |
-| Episode 19| 10.0   |
-| Episode 20| 8.5    |
+| Episode | Score  |
+|---------|--------|
+| 1       | 10.0   |
+| 2       | 11.2   |
+| 3       | -5.6   |
+| 4       | 8.2    |
+| 5       | 10.0   |
+| 6       | 10.6   |
+| 7       | 10.6   |
+| 8       | 10.0   |
+| 9       | 10.6   |
+| 10      | -5.0   |
+| 11      | 10.0   |
+| 12      | 10.0   |
+| 13      | 10.0   |
+| 14      | 10.0   |
+| 15      | 11.2   |
+| 16      | 9.4    |
+| 17      | 10.0   |
+| 18      | 11.2   |
+| 19      | 9.4    |
+| 20      | 10.6   |
 
+- High Scores (9.4 and above): 
 
-Overall the agent shows a strong performance, successfully reaches the door while avoiding ghosts and collecting candies. There are a few cases where the agent does choose to encounter a ghost - I think this may be due to the fact that Epsilon is decayed to 0.1 meaning 10% of the time the agent will choose a random action. I did this in order to encourage the agent to explore to adapt to random placement of the ghosts. 
+    - The agent performs consistently well in most episodes, showing it effectively avoids ghosts and maximises rewards.
+    - High scores indicate that the agent has learned to prioritise reaching the door and if sensible, collects candies along the way.
 
-Going forward, I could spend more time trying to tune my DQN in order to improve the agent's performance.
+- Poor Performance (Episode 3 and 10): 
+
+    - In Episodes 3 and 10, the agent encountered a ghost on the way to the door. This might be due to the remaining 5% exploration rate, causing the agent to take random actions occasionally and follow suboptimal paths.
+    - Could also be the total rewards gathered during the episodes outweighs the penalty of a ghost. 
+- Potentially worth exploring with ghost penalties in the future, but also must be cautious not to increase too much as this may cause the agent to become stuck.
+
+Overall, the scores reflect a strong understanding of the environment, with a few lapses in performance due to exploration randomness since epsilon decays to 0.05.
 
 ## Summary
 There is a clear progression in complexity throughout each Phase of my custom environment. This project has been enjoyable, I have learnt so much about Reinforcement Learning and am sure there is a lot left to learn! 
