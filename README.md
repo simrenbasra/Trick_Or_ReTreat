@@ -55,3 +55,16 @@ For more information or explanations please visit my blog posts on the project w
 - [Custom Environment Set Up: Phase 1 (Simple)](https://simrenbasra.github.io/simys-blog/2024/11/14/trick_or_retreat_part3.html)
 - [Custom Environment Set Up: Phase 2 (Intermediate)](https://simrenbasra.github.io/simys-blog/2024/11/20/trick_or_retreat_part4.html)
 - [Custom Environment Set Up: Phase 3 (Final)](https://simrenbasra.github.io/simys-blog/2024/12/07/trick_or_retreat_part5.html)
+
+## How to run
+1. Clone the Repository:
+
+`git clone https://github.com/simrenbasra/Trick_Or_ReTreat.git`
+
+2. Install dependencies:
+
+`pip install -r requirements.txt`
+
+Requires env to be set up and activated as well as pip to be installed.
+
+Run the notebooks Open the notebooks in the notebooks/directory and follow the instructions
